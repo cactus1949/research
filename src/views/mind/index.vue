@@ -1,6 +1,6 @@
 <template>
     <div class="dashboard-container">
-        transfer
+        mind
     </div>
 </template>
 
