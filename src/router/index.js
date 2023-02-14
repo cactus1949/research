@@ -55,6 +55,18 @@ export const constantRoutes = [
     }]
   },
 
+  {
+    path: '/transfer',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/transfer/index'),
+        meta: { title: 'transfer', icon: 'link' }
+      }
+    ]
+  },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
