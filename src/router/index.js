@@ -55,6 +55,40 @@ export const constantRoutes = [
     }]
   },
 
+  {
+    path: '/demo',
+    component: Layout,
+    redirect: '/transfer',
+    meta: { title: 'demo' , icon: 'dashboard' },
+    children: [
+      {
+        path: 'transfer',
+        name: 'transfer',
+        component: () => import('@/views/transfer/index'),
+        meta: {
+          title: 'transfer', icon: 'dashboard'
+        }
+      },
+      {
+        path: 'mind',
+        name: 'mind',
+        component: () => import('@/views/mind/index'),
+        meta: {
+          title: 'mind', icon: 'dashboard'
+        }
+      },
+      {
+        path: 'uieditor',
+        name: 'uieditor',
+        component: () => import('@/views/uieditor/index'),
+        meta: {
+          title: 'uieditor', icon: 'dashboard'
+        }
+      },
+    ]
+  },
+  
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
