@@ -22,9 +22,9 @@
                     <div class="transfer-box-title">已选中</div>
                     <div class="transfer-box">
                         <div class="transfer-box-content right-tree">
-                            <custom-tree :data="targetData" show-checkbox node-key="id" :expand-on-click-node="false"
+                            <el-tree :data="targetData" show-checkbox node-key="id" :expand-on-click-node="false"
                                 :check-strictly="true" default-expand-all :props="defaultPropsRight" ref="treeRight">
-                            </custom-tree>
+                            </el-tree>
                         </div>
                     </div>
                 </el-col>
@@ -35,24 +35,12 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import customTree from '@/components/customTree/src/tree.vue'
-function recursion(obj, cb) {
-    if (Array.isArray(obj) && obj.length > 0) {
-        for (const item of obj) {
-            if (item.children) recursion(item.children, cb);
-            typeof cb == "function" && cb(obj, item);
-        }
-    }
-}
 export default {
     name: 'Dashboard',
     computed: {
         ...mapGetters([
             'name'
         ])
-    },
-    components: {
-        customTree
     },
     data() {
         return {
@@ -130,6 +118,7 @@ export default {
                 const { left, right } = this.filterData(arr, this.leftCheckedKeys)
                 this.targetData = right
                 this.data = left
+                console.log(left,right)
             }
         },
         filterData(arr, keys) {
@@ -159,6 +148,34 @@ export default {
             }
             return { right: rightArr, left: leftArr }
         },
+        filterData2(arr1,arr2, keys) {
+            let children = this.defaultProps.children;
+            let id = this.defaultProps.value;
+            let rightArr = []
+            let leftArr = []
+            if (arr2) {
+                arr2.map((item, index) => {
+                    if (keys.indexOf(item[id]) != -1) {
+                        rightArr.push({ noCheckedRight: true })
+                        leftArr.push({ ...arr1[index],noCheckedLeft: false })
+                    } else {
+                        rightArr.push({ ...item })
+                        leftArr.push({ ...arr1[index] })
+                    }
+
+                    if (item.hasOwnProperty(children) && item[children].length != 0) {
+                        let childrenList1 = this._.cloneDeep(arr1[index][children])
+                        let childrenList2 = this._.cloneDeep(item[children])
+                        const { left, right } = this.filterData2(childrenList1,childrenList2, keys)
+                        rightArr[index][children] = right;
+                        leftArr[index][children] = left;
+                    }
+                })
+            } else {
+                return { right: [], left: [] }
+            }
+            return { right: rightArr, left: leftArr }
+        },
         // 向右
         add() {
             let checkedKeys = this.$refs.tree.getCheckedKeys()
@@ -177,62 +194,21 @@ export default {
         // 向左
         del() {
             let checkedKeys = this.$refs.treeRight.getCheckedKeys()
+            console.log(checkedKeys)
             if (checkedKeys.length > this.rightCheckedKeys.length) {
-                // this.rightCheckedKeys.push(...checkedKeys)
-                // this.rightCheckedKeys = [...new Set(this.rightCheckedKeys)]
-                // this.$refs.treeRight.setCheckedKeys(this.rightCheckedKeys)
-                // let arr = this._.cloneDeep(this.data)
-                // const { left, right } = this.filterData(arr, this.rightCheckedKeys)
-                // this.targetData = right;
-                // this.data = left;
+                let arr1 = this._.cloneDeep(this.data)
+                let arr2 = this._.cloneDeep(this.targetData)
+                const { left, right } = this.filterData2(arr1,arr2, checkedKeys)
+                console.log(left,right)
+                this.targetData = right;
+                this.data = left;
+                this.$refs.treeRight.setCheckedKeys([])
+
+                this.leftCheckedKeys = this.leftCheckedKeys.filter(item=>checkedKeys.indexOf(item) == -1)
+                this.$refs.tree.setCheckedKeys(this.leftCheckedKeys)
             } else {
                 this.$message.warning('请先勾选数据')
             }
-        },
-        /**
-         *selectedKeys参数为勾选的id，不包含半勾选
-         selectedNodes参数为获取所有勾选的node
-         targetData参数为操作后获得的结果数据
-         data参数为需要操作勾选的源数据 **/
-        handleData(selectedKeys, selectedNodes, targetData, data) {
-            selectedNodes.forEach((nodes) => {
-                let parentNode;
-                recursion(targetData, function (obj, item) {
-                    //寻找要插入的元素的父节点是否存在
-                    if (nodes.rightParentid == item.rightId) parentNode = item;
-                });
-                //初始化要插入的节点数据
-                let nodeObj = {
-                    rightId: nodes.rightId,
-                    rightName: nodes.rightName,
-                    rightParentid: nodes.rightParentid,
-                };
-                nodes.rightParentid && (nodeObj.nodeObj = nodes.rightParentid);
-                nodes.children && (nodeObj.children = []);
-                //如果找到父节点,那么代表是子节点，没有找到那么就是一级节点。
-                if (parentNode) {
-                    //判断父节点是否已经存在这个节点。如果不存在就插入
-                    if (
-                        !parentNode.children.find((item) => item.rightId == nodes.rightId)
-                    )
-                        parentNode.children.push(nodeObj);
-                } else {
-                    //一级节点需要在顶层数组里插入
-                    if (!targetData.find((item) => item.rightId == nodes.rightId))
-                        targetData.push(nodeObj);
-                }
-            });
-            //删除选中的元素
-            recursion(data, function (obj, item) {
-                selectedKeys.forEach((delItem) => {
-                    //找到选中的元素删除
-                    let index = obj.findIndex((findItem) => {
-                        return delItem == findItem.rightId;
-                    });
-                    index > -1 && obj.splice(index, 1);
-
-                });
-            });
         },
     }
 }
