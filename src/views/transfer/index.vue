@@ -118,7 +118,6 @@ export default {
                 const { left, right } = this.filterData(arr, this.leftCheckedKeys)
                 this.targetData = right
                 this.data = left
-                console.log(left,right)
             }
         },
         filterData(arr, keys) {
@@ -194,12 +193,10 @@ export default {
         // 向左
         del() {
             let checkedKeys = this.$refs.treeRight.getCheckedKeys()
-            console.log(checkedKeys)
             if (checkedKeys.length > this.rightCheckedKeys.length) {
                 let arr1 = this._.cloneDeep(this.data)
                 let arr2 = this._.cloneDeep(this.targetData)
                 const { left, right } = this.filterData2(arr1,arr2, checkedKeys)
-                console.log(left,right)
                 this.targetData = right;
                 this.data = left;
                 this.$refs.treeRight.setCheckedKeys([])
