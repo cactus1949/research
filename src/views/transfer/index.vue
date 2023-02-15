@@ -7,7 +7,7 @@
                     <div class="transfer-box">
                         <div class="transfer-box-content left-tree">
                             <el-tree :data="data" show-checkbox node-key="id" ref="tree" :check-strictly="true"
-                                default-expand-all :expand-on-click-node="false" :props="defaultProps">
+                                :expand-on-click-node="true" :props="defaultProps">
                             </el-tree>
                         </div>
                     </div>
@@ -22,7 +22,7 @@
                     <div class="transfer-box-title">已选中</div>
                     <div class="transfer-box">
                         <div class="transfer-box-content right-tree">
-                            <el-tree :data="targetData" show-checkbox node-key="id" :expand-on-click-node="false"
+                            <el-tree :data="targetData" show-checkbox node-key="id" :expand-on-click-node="true"
                                 :check-strictly="true" default-expand-all :props="defaultPropsRight" ref="treeRight">
                             </el-tree>
                         </div>
