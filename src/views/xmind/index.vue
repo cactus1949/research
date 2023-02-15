@@ -1,0 +1,117 @@
+<template>
+    <div class="dashboard-container">
+        <div id="map"></div>
+        <div class="control-btns">
+            <el-button type="primary" @click="setMoreData">setMoreData</el-button>
+            <el-button type="primary" @click="resetData">resetData</el-button>
+            
+            <el-button type="primary" @click="setDefaultData">setDefaultData</el-button>
+        </div>
+    </div>
+</template>
+
+<script>
+import MindElixir, { E } from "mind-elixir";
+import example from './js/example.js'
+import example2 from './js/example2.js'
+export default {
+    name: "App",
+    data() {
+        return {
+            ME: null,
+        };
+    },
+    mounted() {
+        this.ME = new MindElixir({
+            el: "#map",
+            direction: MindElixir.RIGHT,
+            draggable: true, // default true
+            contextMenu: true, // default true
+            toolBar: true, // default true
+            nodeMenu: false, // default true
+            keypress: true, // default true
+            locale: 'zh_CN', // [zh_CN,zh_TW,en,ja,pt] waiting for PRs
+            primaryLinkStyle: 1, // 连线样式 【1，2】 
+            contextMenuOption: {
+                focus: true,
+                link: true,
+                extend: [
+                    {
+                        name: 'Node edit',
+                        onclick: () => {
+                            alert('extend menu')
+                        },
+                    },
+                ],
+            },
+        });
+        this.ME.init(MindElixir.new("new topic"));
+
+        this.ME.bus.addListener('operation', operation => {
+            console.log(operation)
+            // return {
+            //   name: action name,
+            //   obj: target object
+            // }
+
+            // name: [insertSibling|addChild|removeNode|beginEdit|finishEdit]
+            // obj: target
+
+            // name: moveNode
+            // obj: {from:target1,to:target2}
+        })
+
+        this.ME.bus.addListener('selectNode', node => {
+            console.log(node)
+        })
+
+        this.ME.bus.addListener('expandNode', node => {
+            console.log('expandNode: ', node)
+        })
+    },
+    methods: {
+        setDefaultData(){
+            this.setData(example2)
+        },
+        setMoreData() {
+            this.setData(example)
+        },
+        resetData() {
+            this.setData(MindElixir.new("new topic"))
+        },
+        setData(data) {
+            this.ME.init(data)
+        }
+    }
+};
+</script>
+<style>
+.lt {
+    display: none !important;
+}
+</style>
+
+<style lang="scss" scoped>
+.dashboard {
+    &-container {
+        margin: 30px;
+
+        #map {
+            width: 100%;
+            height: calc(100vh - 200px);
+        }
+
+        .control-btns {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    }
+
+    &-text {
+        font-size: 30px;
+        line-height: 46px;
+    }
+}
+</style>

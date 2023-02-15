@@ -108,6 +108,82 @@ export default {
                                 { "id": "8", "topic": "礼品萝卜价格" },
                             ]
                         },
+                        {
+                            "id": "27", "topic": "地区3-价格", "direction": "left", "children": [
+                                {
+                                    "id": "28", "topic": "收购萝卜价格", children: [
+                                        {
+                                            id: 29, topic: "鲜销萝卜", children: [
+                                                {
+                                                    id: 30, topic: '采集点1'
+                                                },
+                                                {
+                                                    id: 31, topic: '采集点2'
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            id: 32, topic: "加工萝卜", children: [
+                                                {
+                                                    id: 33, topic: '采集点1'
+                                                },
+                                                {
+                                                    id: 34, topic: '采集点2'
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "35", "topic": "批发萝卜价格", children: [
+                                        {
+                                            id: 36, topic: "鲜销萝卜(带泥)", children: [
+                                                {
+                                                    id: 37, topic: '采集点1'
+                                                },
+                                                {
+                                                    id: 38, topic: '采集点2'
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            id: 39, topic: "鲜销萝卜（水洗）", children: [
+                                                {
+                                                    id: 40, topic: '采集点1'
+                                                },
+                                                {
+                                                    id: 41, topic: '采集点2'
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            id: 42, topic: "加工萝卜", children: [
+                                                {
+                                                    id: 43, topic: '采集点1'
+                                                },
+                                                {
+                                                    id: 44, topic: '采集点2'
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "45", "topic": "礼品萝卜价格", children: [
+                                        {
+                                            id: 46, topic: '礼品萝卜', children: [
+                                                {
+                                                    id: 47, topic: '采集点1'
+                                                },
+                                                {
+                                                    id: 48, topic: '采集点2'
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                            ]
+                        },
                     ]
                 }
             };
@@ -115,9 +191,10 @@ export default {
                 container: 'jsmind_container', // 容器id
                 editable: true, // 节点是否可以编辑
                 theme: 'primary', // 主题
-                mode: 'side', // 子节点只分布在根节点右侧
+                // mode: 'full', // 子节点只分布在根节点右侧 side
+                mode: 'full',
                 support_html: false, // 节点内容 是否支持html
-                view: {
+                view: { 
                     draggable: true, // 当容器不能完全容纳思维导图时，是否允许拖动画布代替鼠标滚动
                     hide_scrollbars_when_draggable: true, // draggable == true 时，是否隐藏滚动条
                     engine: 'svg', // 各节点之间线条的绘制引擎
