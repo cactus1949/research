@@ -1,6 +1,5 @@
 <template>
     <div class="dashboard-container">
-        mind
         <div id="jsmind_container"></div>
     </div>
 </template>
@@ -23,31 +22,94 @@ export default {
                     author: 'hizzgdev@163.com',
                     version: '0.2',
                 },
-                format: 'node_array',
-                data: [
-                    { id: 'root', isroot: true, topic: 'jsMind' },
-
-                    {
-                        'id': 'sub1',
-                        'parentid': 'root',
-                        'topic': 'sub1',
-                        'background-color': '#0000ff',
-                    },
-                    { id: 'sub11', parentid: 'sub1', topic: 'sub11' },
-                    { id: 'sub12', parentid: 'sub1', topic: 'sub12' },
-                    { id: 'sub13', parentid: 'sub1', topic: 'sub13' },
-
-                    { id: 'sub2', parentid: 'root', topic: 'sub2' },
-                    { id: 'sub21', parentid: 'sub2', topic: 'sub21' },
-                    {
-                        'id': 'sub22',
-                        'parentid': 'sub2',
-                        'topic': 'sub22',
-                        'foreground-color': '#33ff33',
-                    },
-
-                    { id: 'sub3', parentid: 'root', topic: 'sub3' },
-                ],
+                format: 'node_tree',
+                "data": {
+                    "id": "root", "topic": "萝卜价格指数", "children": [
+                        {
+                            "id": "1", "topic": "地区1-价格", "direction": "left", "children": [
+                                {
+                                    "id": "2", "topic": "收购萝卜价格", children: [
+                                        {
+                                            id: 9, topic: "鲜销萝卜", children: [
+                                                {
+                                                    id: 10, topic: '采集点1'
+                                                },
+                                                {
+                                                    id: 11, topic: '采集点2'
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            id: 12, topic: "加工萝卜", children: [
+                                                {
+                                                    id: 13, topic: '采集点1'
+                                                },
+                                                {
+                                                    id: 14, topic: '采集点2'
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "3", "topic": "批发萝卜价格", children: [
+                                        {
+                                            id: 15, topic: "鲜销萝卜(带泥)", children: [
+                                                {
+                                                    id: 16, topic: '采集点1'
+                                                },
+                                                {
+                                                    id: 17, topic: '采集点2'
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            id: 18, topic: "鲜销萝卜（水洗）", children: [
+                                                {
+                                                    id: 19, topic: '采集点1'
+                                                },
+                                                {
+                                                    id: 20, topic: '采集点2'
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            id: 21, topic: "加工萝卜", children: [
+                                                {
+                                                    id: 22, topic: '采集点1'
+                                                },
+                                                {
+                                                    id: 23, topic: '采集点2'
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "4", "topic": "礼品萝卜价格", children: [
+                                        {
+                                            id: 24, topic: '礼品萝卜', children: [
+                                                {
+                                                    id: 25, topic: '采集点1'
+                                                },
+                                                {
+                                                    id: 26, topic: '采集点2'
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                            ]
+                        },
+                        {
+                            "id": "5", "topic": "地区2-价格", "direction": "left", "children": [
+                                { "id": "6", "topic": "收购萝卜价格" },
+                                { "id": "7", "topic": "批发萝卜价格" },
+                                { "id": "8", "topic": "礼品萝卜价格" },
+                            ]
+                        },
+                    ]
+                }
             };
             var options = {
                 container: 'jsmind_container', // 容器id
@@ -61,7 +123,7 @@ export default {
                     engine: 'svg', // 各节点之间线条的绘制引擎
                     hmargin: 100, // 思维导图距容器外框的最小水平距离（像素）
                     vmargin: 50, // 思维导图距容器外框的最小垂直距离（像素）
-                    line_width: 2, // 线条粗细
+                    line_width: 1, // 线条粗细
                     line_color: 'black', // 线条颜色
                     hspace: 30, // 节点之间的水平间距
                     vspace: 20, // 节点之间的垂直间距
@@ -119,8 +181,8 @@ export default {
             // jm.set_readonly(true);
             // var mind_data = jm.get_data();
             // alert(mind_data);
-            jm.add_node('sub2', 'sub23', 'new node', { 'background-color': 'red' });
-            jm.set_node_color('sub21', 'green', '#ccc');
+            // jm.add_node('sub2', 'sub23', 'new node', { 'background-color': 'red' });
+            // jm.set_node_color('sub21', 'green', '#ccc');
         }
     },
     mounted() {
@@ -135,7 +197,7 @@ export default {
         margin: 30px;
 
         #jsmind_container {
-            width: 100%;
+            width: 50%;
             height: 80vh;
             border: solid 1px #ccc;
             /*background:#f4f4f4;*/
