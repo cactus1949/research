@@ -7,6 +7,9 @@
                     <div class="transfer-box">
                         <div class="transfer-box-content left-tree">
                             <el-tree :data="data" show-checkbox node-key="id" ref="tree" :check-strictly="true"
+                                :default-expanded-keys="defaultShowLeftNodes"
+                                @node-expand="handleNodeExpandLeft"
+                                @node-collapse="handleNodeCollapseLeft"
                                 :expand-on-click-node="true" :props="defaultProps">
                             </el-tree>
                         </div>
@@ -66,7 +69,9 @@ export default {
             checkedKeys: [], // 选中的keys
             leftCheckedKeys: [],
             rightCheckedKeys: [],
-            data: [],
+            defaultShowLeftNodes: [],
+            // defaultShowRightNodes: [],
+            data: [],                               
         };
     },
     mounted() {
@@ -81,6 +86,32 @@ export default {
         }
     },
     methods: {
+        handleNodeCollapseLeft(data){
+            // 删除当前关闭的节点
+            this.defaultShowLeftNodes.some((item, i) => {
+                if (item === data.id) {
+                    this.defaultShowLeftNodes.splice(i, 1)
+                }
+            })
+        },
+        handleNodeExpandLeft(data){
+            let flag = false
+            this.defaultShowLeftNodes.some(item => {
+                if (item === data.id) { // 判断当前节点是否存在， 存在不做处理
+                    flag = true
+                    return true
+                }
+            })
+            if (!flag) { // 不存在则存到数组里
+                this.defaultShowLeftNodes.push(data.id)
+            }
+        },
+        // handleNodeCollapseRight(){
+
+        // },
+        // handleNodeExpandRight(){
+
+        // },
         //获取所有菜单信息
         getAllTreeList() {
             this.data = [
