@@ -50,9 +50,70 @@ export default {
                 ],
             };
             var options = {
-                container: 'jsmind_container',
-                editable: true,
-                theme: 'primary',
+                container: 'jsmind_container', // 容器id
+                editable: true, // 节点是否可以编辑
+                theme: 'primary', // 主题
+                mode: 'side', // 子节点只分布在根节点右侧
+                support_html: false, // 节点内容 是否支持html
+                view: {
+                    draggable: true, // 当容器不能完全容纳思维导图时，是否允许拖动画布代替鼠标滚动
+                    hide_scrollbars_when_draggable: true, // draggable == true 时，是否隐藏滚动条
+                    engine: 'svg', // 各节点之间线条的绘制引擎
+                    hmargin: 100, // 思维导图距容器外框的最小水平距离（像素）
+                    vmargin: 50, // 思维导图距容器外框的最小垂直距离（像素）
+                    line_width: 2, // 线条粗细
+                    line_color: 'black', // 线条颜色
+                    hspace: 30, // 节点之间的水平间距
+                    vspace: 20, // 节点之间的垂直间距
+                    // pspace: 30, // 节点收缩/展开控制器的尺寸 没用
+                },
+                shortcut: {
+                    enable: true, // 是否启用快捷键
+                },
+                menuOpts: {
+                    showMenu: true,
+                    tipContent: '请选中节点！！！',
+                    injectionList: [
+                        {
+                            target: 'edit', text: '编辑节点名称',
+                            callback: function (node) {
+                                console.log(node)
+                            }
+                        },
+                        {
+                            target: 'addChild', text: '添加子节点',
+                            callback: function (node) {
+                                console.log(node)
+                            }
+                        },
+                        {
+                            target: 'addBrother', text: '添加兄弟节点',
+                            callback: function (node) {
+                                console.log(node)
+                            }
+                        },
+                        {
+                            target: 'delete', text: '删除节点',
+                            callback: function (node, next) {
+                                console.log(node)
+                            }
+                        },
+
+                        {
+                            target: 'showAll', text: '展开全部节点',
+                            callback: function (node, next) {
+                                console.log(node)
+                            }
+                        },
+                        {
+                            target: 'hideAll', text: '收起全部节点',
+                            callback: function (node, next) {
+                                console.log(node)
+                            }
+                        },
+                    ],
+
+                }
             };
             var jm = jsMind.show(options, mind);
             // jm.set_readonly(true);

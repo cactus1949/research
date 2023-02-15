@@ -19,8 +19,8 @@ import "@/utils/jsmind/style/jsmind.css";
 import jsMind from '@/utils/jsmind/js/jsmind';
 window.jsMind = jsMind
 import '@/utils/jsmind/js/jsmind.screenshot';
-import '@/utils/jsmind/js/jsmind.draggable-node';
-
+require('@/utils/jsmind/js/jsmind.draggable-node')
+require('@/utils/jsmind/js/jsmind.menu')
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
