@@ -72,6 +72,14 @@ export default {
     mounted() {
         this.getAllTreeList()
     },
+    watch: {
+        leftCheckedKeys(val) {
+            console.log(val)
+            if (val.length == 0) {
+                this.targetData = []
+            }
+        }
+    },
     methods: {
         //获取所有菜单信息
         getAllTreeList() {
@@ -111,7 +119,7 @@ export default {
                     }]
                 }
             ]
-            this.leftCheckedKeys = [9, 2, 5]
+            this.leftCheckedKeys = []
             this.$refs.tree.setCheckedKeys(this.leftCheckedKeys)
             if (this.leftCheckedKeys && this.leftCheckedKeys.length != 0) {
                 let arr = this._.cloneDeep(this.data)
@@ -147,7 +155,7 @@ export default {
             }
             return { right: rightArr, left: leftArr }
         },
-        filterData2(arr1,arr2, keys) {
+        filterData2(arr1, arr2, keys) {
             let children = this.defaultProps.children;
             let id = this.defaultProps.value;
             let rightArr = []
@@ -156,7 +164,7 @@ export default {
                 arr2.map((item, index) => {
                     if (keys.indexOf(item[id]) != -1) {
                         rightArr.push({ noCheckedRight: true })
-                        leftArr.push({ ...arr1[index],noCheckedLeft: false })
+                        leftArr.push({ ...arr1[index], noCheckedLeft: false })
                     } else {
                         rightArr.push({ ...item })
                         leftArr.push({ ...arr1[index] })
@@ -165,7 +173,7 @@ export default {
                     if (item.hasOwnProperty(children) && item[children].length != 0) {
                         let childrenList1 = this._.cloneDeep(arr1[index][children])
                         let childrenList2 = this._.cloneDeep(item[children])
-                        const { left, right } = this.filterData2(childrenList1,childrenList2, keys)
+                        const { left, right } = this.filterData2(childrenList1, childrenList2, keys)
                         rightArr[index][children] = right;
                         leftArr[index][children] = left;
                     }
@@ -196,12 +204,12 @@ export default {
             if (checkedKeys.length > this.rightCheckedKeys.length) {
                 let arr1 = this._.cloneDeep(this.data)
                 let arr2 = this._.cloneDeep(this.targetData)
-                const { left, right } = this.filterData2(arr1,arr2, checkedKeys)
+                const { left, right } = this.filterData2(arr1, arr2, checkedKeys)
                 this.targetData = right;
                 this.data = left;
                 this.$refs.treeRight.setCheckedKeys([])
 
-                this.leftCheckedKeys = this.leftCheckedKeys.filter(item=>checkedKeys.indexOf(item) == -1)
+                this.leftCheckedKeys = this.leftCheckedKeys.filter(item => checkedKeys.indexOf(item) == -1)
                 this.$refs.tree.setCheckedKeys(this.leftCheckedKeys)
             } else {
                 this.$message.warning('请先勾选数据')
