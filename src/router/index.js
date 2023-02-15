@@ -78,11 +78,11 @@ export const constantRoutes = [
         }
       },
       {
-        path: 'uieditor',
-        name: 'uieditor',
-        component: () => import('@/views/uieditor/index'),
+        path: 'xmind',
+        name: 'xmind',
+        component: () => import('@/views/xmind/index'),
         meta: {
-          title: 'uieditor', icon: 'dashboard'
+          title: 'xmind', icon: 'dashboard'
         }
       },
     ]
