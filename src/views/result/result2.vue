@@ -33,7 +33,8 @@
                 </w-header>
                 <w-main>
                     <div class="content">
-                        <w-table :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
+                        <w-table :data="tableData" ref="tableRef" style="width: 100%"
+                            @selection-change="handleSelectionChange">
                             <w-table-column type="selection" width="55">
                             </w-table-column>
                             <w-table-column prop="name" label="Name" width="180">
@@ -226,6 +227,7 @@ export default {
             if (this.multipleSelection && this.multipleSelection.length != 0) {
                 // delete
                 this.$message.success('删除成功')
+                this.$refs.tableRef.clearSelection()
             } else {
                 this.$message.warning('请选择')
             }
