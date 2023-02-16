@@ -93,6 +93,14 @@ export const constantRoutes = [
           title: 'jsmind', icon: 'dashboard'
         }
       },
+      {
+        path: 'result',
+        name: 'result',
+        component: () => import('@/views/result/index'),
+        meta: {
+          title: 'result', icon: 'dashboard'
+        }
+      },
     ]
   },
   
