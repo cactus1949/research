@@ -1,11 +1,25 @@
 <template>
     <div class="dashboard-container">
-        <div id="map"></div>
+        <w-row :gutter="20">
+            <w-col :span="12">
+                <div id="map"></div>
+            </w-col>
+            <w-col :span="12">
+                <div class="right-container" v-if="Object.keys(this.currentNode).length != 0">
+                    <p>id: {{ currentNode.id }}</p>
+                    <p>topic: {{ currentNode.topic }}</p>
+                    <p>type: {{ currentNode.type }}</p>
+                    <p>path: {{ currentNode.fullName }}</p>
+                </div>
+            </w-col>
+        </w-row>
+
         <div class="control-btns">
             <el-button type="primary" @click="setMoreData">setMoreData</el-button>
             <el-button type="primary" @click="resetData">resetData</el-button>
 
             <el-button type="primary" @click="setDefaultData">setDefaultData</el-button>
+            <el-button type="primary" @click="setTestData">setTestData</el-button>
         </div>
         <mapSetting ref="mapSetingRef"></mapSetting>
 </div>
@@ -16,12 +30,14 @@ import mapSetting from "./components/third/mapSetting.vue";
 import MindElixir, { E } from "mind-elixir";
 import example from './js/example.js'
 import example2 from './js/example2.js'
+import example3 from './js/example3.js'
+import { assertEnumDefaultedMember } from "@babel/types";
 export default {
     name: "App",
     data() {
         return {
             ME: null,
-            currentNode: {}
+            currentNode: {},
         };
     },
     components: {
@@ -35,7 +51,7 @@ export default {
             contextMenu: false, // default true
             toolBar: true, // default true
             nodeMenu: false, // default true
-            keypress: false, // default true
+            keypress: true, // default true
             locale: 'zh_CN', // [zh_CN,zh_TW,en,ja,pt] waiting for PRs
             overflowHidden: false, // default false
             primaryLinkStyle: 2, // [1,2] default 1
@@ -73,7 +89,11 @@ export default {
         this.ME.bus.addListener('selectNode', node => {
             console.log(node)
             this.currentNode = node;
-            this.$refs.mapSetingRef.showDrawer()
+            this.currentNode.fullName = this.getNodeFullName(this.currentNode)
+            // drawer
+            // this.$refs.mapSetingRef.showDrawer()
+            
+
         })
 
         this.ME.bus.addListener('expandNode', node => {
@@ -82,9 +102,20 @@ export default {
 
 
 
-        this.setDefaultData()
+        this.setTestData()
     },
     methods: {
+        getNodeFullName(node){
+            let nodeFullName = []
+            while(node.parent && node.type != '0'){
+                nodeFullName.unshift(node.topic)
+                node = node.parent;
+            }
+            return nodeFullName.join('-');
+        },
+        setTestData(){
+            this.ME.init(example3)
+        },
         setDefaultData() {
             this.setData(example2)
         },
