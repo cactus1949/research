@@ -85,6 +85,14 @@ export const constantRoutes = [
           title: 'xmind', icon: 'dashboard'
         }
       },
+      {
+        path: 'jsmind',
+        name: 'jsmind',
+        component: () => import('@/views/jsmind/index'),
+        meta: {
+          title: 'jsmind', icon: 'dashboard'
+        }
+      },
     ]
   },
   
