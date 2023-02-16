@@ -1,37 +1,62 @@
 <template>
     <div class="dashboard-container">
-        <div id="map"></div>
+        <w-row :gutter="20">
+            <w-col :span="12">
+                <div id="map"></div>
+            </w-col>
+            <w-col :span="12">
+                <div class="right-container" v-if="Object.keys(this.currentNode).length != 0">
+                    <p>id: {{ currentNode.id }}</p>
+                    <p>topic: {{ currentNode.topic }}</p>
+                    <p>type: {{ currentNode.type }}</p>
+                    <p>path: {{ currentNode.fullName }}</p>
+                </div>
+            </w-col>
+        </w-row>
+
         <div class="control-btns">
             <el-button type="primary" @click="setMoreData">setMoreData</el-button>
             <el-button type="primary" @click="resetData">resetData</el-button>
-            
+
             <el-button type="primary" @click="setDefaultData">setDefaultData</el-button>
+            <el-button type="primary" @click="setTestData">setTestData</el-button>
         </div>
-    </div>
+        <mapSetting ref="mapSetingRef"></mapSetting>
+</div>
 </template>
 
 <script>
+import mapSetting from "./components/third/mapSetting.vue";
 import MindElixir, { E } from "mind-elixir";
 import example from './js/example.js'
 import example2 from './js/example2.js'
+import example3 from './js/example3.js'
+import { assertEnumDefaultedMember } from "@babel/types";
 export default {
     name: "App",
     data() {
         return {
             ME: null,
+            currentNode: {},
         };
+    },
+    components: {
+        mapSetting
     },
     mounted() {
         this.ME = new MindElixir({
-            el: "#map",
-            direction: MindElixir.RIGHT,
-            draggable: true, // default true
-            contextMenu: true, // default true
+            el: '#map', // or HTMLDivElement
+            direction: MindElixir.RIGHT, // MindElixir.LEFT / MindElixir.RIGHT 默认节点方向
+            draggable: true, // default true 是否可拖拽
+            contextMenu: false, // default true
             toolBar: true, // default true
             nodeMenu: false, // default true
             keypress: true, // default true
             locale: 'zh_CN', // [zh_CN,zh_TW,en,ja,pt] waiting for PRs
-            primaryLinkStyle: 1, // 连线样式 【1，2】 
+            overflowHidden: false, // default false
+            primaryLinkStyle: 2, // [1,2] default 1
+            primaryNodeVerticalGap: 15, // default 25
+            primaryNodeHorizontalGap: 15, // default 65
             contextMenuOption: {
                 focus: true,
                 link: true,
@@ -63,14 +88,35 @@ export default {
 
         this.ME.bus.addListener('selectNode', node => {
             console.log(node)
+            this.currentNode = node;
+            this.currentNode.fullName = this.getNodeFullName(this.currentNode)
+            // drawer
+            // this.$refs.mapSetingRef.showDrawer()
+            
+
         })
 
         this.ME.bus.addListener('expandNode', node => {
             console.log('expandNode: ', node)
         })
+
+
+
+        this.setTestData()
     },
     methods: {
-        setDefaultData(){
+        getNodeFullName(node){
+            let nodeFullName = []
+            while(node.parent && node.type != '0'){
+                nodeFullName.unshift(node.topic)
+                node = node.parent;
+            }
+            return nodeFullName.join('-');
+        },
+        setTestData(){
+            this.ME.init(example3)
+        },
+        setDefaultData() {
             this.setData(example2)
         },
         setMoreData() {
