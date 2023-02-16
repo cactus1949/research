@@ -4,13 +4,15 @@
         <div class="control-btns">
             <el-button type="primary" @click="setMoreData">setMoreData</el-button>
             <el-button type="primary" @click="resetData">resetData</el-button>
-            
+
             <el-button type="primary" @click="setDefaultData">setDefaultData</el-button>
         </div>
-    </div>
+        <mapSetting ref="mapSetingRef"></mapSetting>
+</div>
 </template>
 
 <script>
+import mapSetting from "./components/third/mapSetting.vue";
 import MindElixir, { E } from "mind-elixir";
 import example from './js/example.js'
 import example2 from './js/example2.js'
@@ -19,19 +21,26 @@ export default {
     data() {
         return {
             ME: null,
+            currentNode: {}
         };
+    },
+    components: {
+        mapSetting
     },
     mounted() {
         this.ME = new MindElixir({
-            el: "#map",
-            direction: MindElixir.RIGHT,
-            draggable: true, // default true
-            contextMenu: true, // default true
+            el: '#map', // or HTMLDivElement
+            direction: MindElixir.RIGHT, // MindElixir.LEFT / MindElixir.RIGHT 默认节点方向
+            draggable: true, // default true 是否可拖拽
+            contextMenu: false, // default true
             toolBar: true, // default true
             nodeMenu: false, // default true
-            keypress: true, // default true
+            keypress: false, // default true
             locale: 'zh_CN', // [zh_CN,zh_TW,en,ja,pt] waiting for PRs
-            primaryLinkStyle: 1, // 连线样式 【1，2】 
+            overflowHidden: false, // default false
+            primaryLinkStyle: 2, // [1,2] default 1
+            primaryNodeVerticalGap: 15, // default 25
+            primaryNodeHorizontalGap: 15, // default 65
             contextMenuOption: {
                 focus: true,
                 link: true,
@@ -63,14 +72,20 @@ export default {
 
         this.ME.bus.addListener('selectNode', node => {
             console.log(node)
+            this.currentNode = node;
+            this.$refs.mapSetingRef.showDrawer()
         })
 
         this.ME.bus.addListener('expandNode', node => {
             console.log('expandNode: ', node)
         })
+
+
+
+        this.setDefaultData()
     },
     methods: {
-        setDefaultData(){
+        setDefaultData() {
             this.setData(example2)
         },
         setMoreData() {
