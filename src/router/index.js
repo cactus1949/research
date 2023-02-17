@@ -72,6 +72,7 @@ export const constantRoutes = [
       {
         path: 'mind',
         name: 'mind',
+        hidden: true,
         component: () => import('@/views/mind/index'),
         meta: {
           title: 'mind', icon: 'dashboard'
@@ -86,8 +87,17 @@ export const constantRoutes = [
         }
       },
       {
+        path: 'xmind2',
+        name: 'xmind2',
+        component: () => import('@/views/xmind/index2'),
+        meta: {
+          title: 'xmind2', icon: 'dashboard'
+        }
+      },
+      {
         path: 'jsmind',
         name: 'jsmind',
+        hidden: true,
         component: () => import('@/views/jsmind/index'),
         meta: {
           title: 'jsmind', icon: 'dashboard'
