@@ -79,6 +79,23 @@ export const constantRoutes = [
         }
       },
       {
+        path: 'jsmind',
+        name: 'jsmind',
+        hidden: true,
+        component: () => import('@/views/jsmind/index'),
+        meta: {
+          title: 'jsmind', icon: 'dashboard'
+        }
+      },
+    ]
+  },
+  {
+    path: '/mind',
+    component: Layout,
+    redirect: '/mind/xmind',
+    meta: { title: 'mind demo', icon: 'dashboard' },
+    children: [
+      {
         path: 'xmind',
         name: 'xmind',
         component: () => import('@/views/xmind/index'),
@@ -95,17 +112,15 @@ export const constantRoutes = [
         }
       },
       {
-        path: 'jsmind',
-        name: 'jsmind',
-        hidden: true,
-        component: () => import('@/views/jsmind/index'),
+        path: 'preview',
+        name: 'preview',
+        component: () => import('@/views/xmind/preview'),
         meta: {
-          title: 'jsmind', icon: 'dashboard'
+          title: 'preview', icon: 'dashboard'
         }
       },
     ]
   },
-  
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
