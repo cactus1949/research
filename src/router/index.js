@@ -119,6 +119,14 @@ export const constantRoutes = [
           title: 'preview', icon: 'dashboard'
         }
       },
+      {
+        path: 'json',
+        name: 'json',
+        component: () => import('@/views/xmind/json'),
+        meta: {
+          title: 'json', icon: 'dashboard'
+        }
+      },
     ]
   },
 
