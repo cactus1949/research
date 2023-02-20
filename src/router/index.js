@@ -51,22 +51,35 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: 'Dashboard',  }
     }]
+  },
+  {
+    path: '/visual',
+    component: Layout,
+    redirect: '/visual/index',
+    children: [
+      {
+        path: 'index',
+        name: 'visual-drag-demo',
+        component: () => import('@/views/visual-drag/index'),
+        meta: { title: 'visual-drag-demo' }
+      }
+    ]
   },
 
   {
     path: '/demo',
     component: Layout,
     redirect: '/transfer',
-    meta: { title: 'demo' , icon: 'dashboard' },
+    meta: { title: 'demo' ,  },
     children: [
       {
         path: 'transfer',
         name: 'transfer',
         component: () => import('@/views/transfer/index'),
         meta: {
-          title: 'transfer', icon: 'dashboard'
+          title: 'transfer', 
         }
       },
       {
@@ -76,7 +89,7 @@ export const constantRoutes = [
         hidden: true,
         component: () => import('@/views/mind/index'),
         meta: {
-          title: 'mind', icon: 'dashboard'
+          title: 'mind', 
         }
       },
       {
@@ -85,7 +98,7 @@ export const constantRoutes = [
         hidden: true,
         component: () => import('@/views/jsmind/index'),
         meta: {
-          title: 'jsmind', icon: 'dashboard'
+          title: 'jsmind', 
         }
       },
       {
@@ -93,7 +106,7 @@ export const constantRoutes = [
         name: 'result',
         component: () => import('@/views/result/index'),
         meta: {
-          title: 'result', icon: 'dashboard'
+          title: 'result', 
         }
       },
       {
@@ -101,7 +114,7 @@ export const constantRoutes = [
         name: 'result2',
         component: () => import('@/views/result/result2'),
         meta: {
-          title: 'result2', icon: 'dashboard'
+          title: 'result2', 
         }
       },
     ]
@@ -110,14 +123,14 @@ export const constantRoutes = [
     path: '/mind',
     component: Layout,
     redirect: '/mind/xmind',
-    meta: { title: 'mind demo', icon: 'dashboard' },
+    meta: { title: 'mind demo',  },
     children: [
       {
         path: 'xmind',
         name: 'xmind',
         component: () => import('@/views/xmind/index'),
         meta: {
-          title: 'xmind', icon: 'dashboard'
+          title: 'xmind', 
         }
       },
       {
@@ -125,7 +138,7 @@ export const constantRoutes = [
         name: 'xmind2',
         component: () => import('@/views/xmind/index2'),
         meta: {
-          title: 'xmind2', icon: 'dashboard'
+          title: 'xmind2', 
         }
       },
       {
@@ -133,7 +146,7 @@ export const constantRoutes = [
         name: 'preview',
         component: () => import('@/views/xmind/preview'),
         meta: {
-          title: 'preview', icon: 'dashboard'
+          title: 'preview', 
         }
       },
       {
@@ -141,7 +154,7 @@ export const constantRoutes = [
         name: 'json',
         component: () => import('@/views/xmind/json'),
         meta: {
-          title: 'json', icon: 'dashboard'
+          title: 'json', 
         }
       },
     ]
